@@ -3,11 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Norkito Sprint 6-jul-2026</title>
+<title>Norkito · Todo integrado</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-  html, body { overflow-x: hidden; }
-  body {
+  * {{ box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }}
+  html {{ scroll-behavior: smooth; }}
+  html, body {{ overflow-x: hidden; }}
+  body {{
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     background: #0a0a0a;
     color: #e0e0e0;
@@ -15,15 +16,21 @@
     padding-top: env(safe-area-inset-top);
     padding-bottom: env(safe-area-inset-bottom);
     min-height: 100vh;
-  }
-  .container { max-width: 720px; margin: 0 auto; width: 100%; }
-  header {
+  }}
+  .container {{ max-width: 800px; margin: 0 auto; width: 100%; }}
+  header {{
     text-align: center;
     padding: 24px 0 20px 0;
     border-bottom: 1px solid #2a2a2a;
     margin-bottom: 20px;
-  }
-  h1 {
+    position: sticky;
+    top: 0;
+    background: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 100;
+  }}
+  h1 {{
     font-size: 22px;
     font-weight: 700;
     background: linear-gradient(135deg, #d4a574 0%, #b8860b 100%);
@@ -31,242 +38,494 @@
     background-clip: text;
     color: transparent;
     letter-spacing: 2px;
-    margin-bottom: 8px;
-  }
-  .subtitle { color: #888; font-size: 11px; letter-spacing: 1.2px; text-transform: uppercase; }
-  .updated { color: #555; font-size: 11px; margin-top: 6px; }
-  .meta {
+    margin-bottom: 4px;
+  }}
+  .subtitle {{ color: #888; font-size: 10px; letter-spacing: 1.2px; text-transform: uppercase; }}
+
+  .nav {{
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding: 12px 0;
+    margin: 0 -16px;
+    padding-left: 16px;
+    padding-right: 16px;
+    background: #0a0a0a;
+    border-bottom: 1px solid #2a2a2a;
+    scrollbar-width: none;
+  }}
+  .nav::-webkit-scrollbar {{ display: none; }}
+  .nav a {{
+    flex-shrink: 0;
+    padding: 8px 14px;
     background: #1a1a1a;
-    border-radius: 12px;
-    padding: 16px;
-    margin-bottom: 16px;
     border: 1px solid #2a2a2a;
-  }
-  .meta h3 {
+    border-radius: 16px;
     color: #d4a574;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 10px;
+    text-decoration: none;
+    font-size: 12px;
     font-weight: 600;
-  }
-  .meta ul { list-style: none; display: block; font-size: 13px; color: #d0d0d0; }
-  .meta ul li { padding: 4px 0; line-height: 1.4; }
-  .meta ul li::before { content: '✓ '; color: #4ade80; font-weight: 700; margin-right: 4px; }
-  h2 {
+    white-space: nowrap;
+  }}
+  .nav a:active {{ background: #d4a574; color: #0a0a0a; }}
+
+  h2 {{
     color: #d4a574;
     font-size: 13px;
     text-transform: uppercase;
     letter-spacing: 1.5px;
     margin: 24px 0 12px 0;
-    padding-bottom: 8px;
+    padding: 8px 0;
     border-bottom: 1px solid #2a2a2a;
     font-weight: 600;
-  }
-  .card {
-    background: #1a1a1a;
-    border-radius: 12px;
-    padding: 16px;
-    margin-bottom: 10px;
-    border: 1px solid #2a2a2a;
+  }}
+
+  .grid-buttons {{
     display: flex;
     flex-direction: column;
-    gap: 10px;
-  }
-  .card-head { display: flex; align-items: center; gap: 10px; }
-  .icon {
-    width: 36px;
-    height: 36px;
-    min-width: 36px;
+    gap: 8px;
+  }}
+
+  .btn {{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    background: #1a1a1a;
+    border: 1px solid #2a2a2a;
+    border-radius: 12px;
+    color: #f5f5f5;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.15s;
+  }}
+  .btn:active {{
+    background: #d4a574;
+    color: #0a0a0a;
+    border-color: #d4a574;
+  }}
+  .btn-icon {{
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
     background: linear-gradient(135deg, #d4a574, #b8860b);
     border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
-  }
-  .card-title { font-size: 15px; font-weight: 600; color: #f5f5f5; line-height: 1.3; }
-  .card-desc { font-size: 12px; color: #888; line-height: 1.5; }
-  .card-link {
-    display: block;
-    padding: 12px 16px;
-    background: linear-gradient(135deg, #d4a574 0%, #b8860b 100%);
-    color: #0a0a0a;
-    text-decoration: none;
-    font-size: 13px;
-    font-weight: 700;
-    border-radius: 8px;
-    text-align: center;
-    letter-spacing: 0.3px;
-  }
-  .card-link:active { filter: brightness(0.9); }
-  .card-meta {
+    font-size: 16px;
+    flex-shrink: 0;
+  }}
+  .btn-content {{ flex: 1; min-width: 0; }}
+  .btn-title {{ font-size: 14px; font-weight: 600; line-height: 1.2; }}
+  .btn-desc {{ font-size: 11px; color: #888; margin-top: 2px; line-height: 1.3; }}
+  .btn:active .btn-desc {{ color: rgba(10, 10, 10, 0.7); }}
+  .btn-arrow {{ color: #888; font-size: 16px; flex-shrink: 0; }}
+  .btn:active .btn-arrow {{ color: #0a0a0a; }}
+
+  .iframe-wrap {{
+    margin-top: 12px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #1a1a1a;
+    border: 1px solid #2a2a2a;
+    height: 500px;
+    position: relative;
+  }}
+  .iframe-wrap iframe {{
+    width: 100%;
+    height: 100%;
+    border: 0;
+    background: white;
+  }}
+  .iframe-close {{
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(0,0,0,0.7);
+    color: #fff;
+    border: 0;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    z-index: 10;
+    cursor: pointer;
+  }}
+
+  details {{
+    background: #1a1a1a;
+    border: 1px solid #2a2a2a;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    overflow: hidden;
+  }}
+  summary {{
+    padding: 14px 16px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    color: #f5f5f5;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }}
+  summary::-webkit-details-marker {{ display: none; }}
+  summary::after {{
+    content: '▼';
+    color: #888;
     font-size: 10px;
-    color: #555;
-    line-height: 1.4;
+    margin-left: auto;
+    transition: transform 0.2s;
+  }}
+  details[open] summary::after {{ transform: rotate(180deg); }}
+  .details-content {{ padding: 0 16px 16px 16px; }}
+
+  code, pre {{
+    background: #0a0a0a;
+    padding: 2px 6px;
+    border-radius: 4px;
     font-family: ui-monospace, monospace;
-  }
-  footer {
+    font-size: 12px;
+    color: #d4a574;
+    word-break: break-all;
+  }}
+  pre {{
+    padding: 12px;
+    overflow-x: auto;
+    line-height: 1.5;
+    color: #d0d0d0;
+  }}
+
+  footer {{
     text-align: center;
     padding: 24px 0 8px 0;
     color: #555;
     font-size: 11px;
     border-top: 1px solid #2a2a2a;
-    margin-top: 24px;
-    line-height: 1.5;
-  }
+    margin-top: 32px;
+  }}
 </style>
 </head>
 <body>
 <div class="container">
 
   <header>
-    <h1>SPRINT 6-JUL-2026</h1>
-    <div class="subtitle">Norkito · Hub central</div>
-    <div class="updated">Sprint madrugada · 4 fases cerradas en 3h</div>
+    <h1>TODO INTEGRADO</h1>
+    <div class="subtitle">Sprint 6-jul · Norkevin CRM</div>
   </header>
 
-  <div class="meta">
-    <h3>Resumen del sprint</h3>
-    <ul>
-      <li>Fase 4 — Finanzas (CxC, recibos, dashboard)</li>
-      <li>Fase 5 — Custom build (portal cliente/partner, contratos, raw)</li>
-      <li>Fase 6 — Workflow (Lead, Contrato, WCR)</li>
-      <li>Fase 7 — Hardening (Runbooks, Arquitectura, Auditoría)</li>
-      <li>4 crons Gateway nuevos activos</li>
-      <li>60 datos ficticios seedeados</li>
-      <li>8 commits hoy · MEMORY/ARQUITECTURA/RUNBOOKS actualizados</li>
-    </ul>
+  <nav class="nav">
+    <a href="#vistas">🌐 Vistas</a>
+    <a href="#triggers">⚙️ Triggers</a>
+    <a href="#scripts">🐍 Scripts</a>
+    <a href="#docs">📚 Docs</a>
+    <a href="#comandos">💻 Comandos</a>
+    <a href="#preview">👁️ Preview</a>
+  </nav>
+
+  <!-- VISTAS -->
+  <h2 id="vistas">🌐 Vistas navegables</h2>
+  <div class="grid-buttons">
+    <a href="portal-cliente.html" class="btn">
+      <div class="btn-icon">👤</div>
+      <div class="btn-content">
+        <div class="btn-title">Portal Cliente · Sofia & Andres</div>
+        <div class="btn-desc">Bodas + estado de cuenta + galería</div>
+      </div>
+      <div class="btn-arrow">›</div>
+    </a>
+    <a href="portal-partner.html" class="btn">
+      <div class="btn-icon">📸</div>
+      <div class="btn-content">
+        <div class="btn-title">Portal Partner · Henry Gil</div>
+        <div class="btn-desc">Bodas asignadas + pagos + tarifas</div>
+      </div>
+      <div class="btn-arrow">›</div>
+    </a>
+    <a href="contrato.html" class="btn">
+      <div class="btn-icon">📜</div>
+      <div class="btn-content">
+        <div class="btn-title">Contrato · Rodriguez & Lopez</div>
+        <div class="btn-desc">11 cláusulas legales</div>
+      </div>
+      <div class="btn-arrow">›</div>
+    </a>
+    <a href="dashboard-dispersion.html" class="btn">
+      <div class="btn-icon">💸</div>
+      <div class="btn-content">
+        <div class="btn-title">Dashboard Dispersión Pagos</div>
+        <div class="btn-desc">KPIs + por paquete + por boda</div>
+      </div>
+      <div class="btn-arrow">›</div>
+    </a>
+    <a href="reporte-raw.html" class="btn">
+      <div class="btn-icon">📦</div>
+      <div class="btn-content">
+        <div class="btn-title">Reporte Raw Cards</div>
+        <div class="btn-desc">12 bodas T+1 a T+60 pendientes</div>
+      </div>
+      <div class="btn-arrow">›</div>
+    </a>
+    <a href="preview-email-lead.html" class="btn">
+      <div class="btn-icon">✉️</div>
+      <div class="btn-content">
+        <div class="btn-title">Preview Email Lead</div>
+        <div class="btn-desc">Cómo se ve el correo automático</div>
+      </div>
+      <div class="btn-arrow">›</div>
+    </a>
   </div>
 
-  <h2>🌐 Vistas navegables</h2>
-
-  <div class="card">
-    <div class="card-head">
-      <div class="icon">👤</div>
-      <div class="card-title">Portal Cliente</div>
-    </div>
-    <div class="card-desc">Bodas + estado de cuenta + galería. Datos en vivo desde Notion.</div>
-    <a href="portal-cliente.html" class="card-link">Abrir Sofia & Andres</a>
+  <!-- TRIGGERS -->
+  <h2 id="triggers">⚙️ Triggers automáticos (4 nuevos crons)</h2>
+  <div class="grid-buttons">
+    <details>
+      <summary>🔔 6.1 Lead nuevo → correo</summary>
+      <div class="details-content">
+        <p style="color:#888; font-size:12px; margin-bottom:8px;">Detecta Leads en estado "Nuevo" con email → envía correo automático + crea tarea + cambia a "Contactado"</p>
+        <pre>script: trigger_lead_nuevo.py
+template: email_lead_nuevo.html
+cron: NorkitoLeadAutoReply · cada 1h
+flujo: Lead Nuevo+email → correo → tarea → Contactado</pre>
+      </div>
+    </details>
+    <details>
+      <summary>📝 6.2 Contrato firmado → Job Confirmado</summary>
+      <div class="details-content">
+        <p style="color:#888; font-size:12px; margin-bottom:8px;">Detecta Cotización pagada con Job pendiente → Job Confirmado + tarea + email Kevin</p>
+        <pre>script: trigger_contrato_firmado.py
+cron: NorkitoContratoFirmado · 1h +30min
+condiciones: Cot Aceptada/Pagada + Pagado≥Anticipo + Job Lead/Cotizando
+acciones: Job→Confirmado + tarea + email</pre>
+      </div>
+    </details>
+    <details>
+      <summary>💰 4.2 CxC recordatorios</summary>
+      <div class="details-content">
+        <p style="color:#888; font-size:12px; margin-bottom:8px;">Revisa cotizaciones con saldo. T-3 amistoso, T-0 firme, T+3 escalación.</p>
+        <pre>script: cron_cxc_recordatorios.py
+template: email_cxc_recordatorio.html
+cron: NorkitoCxCRecordatorios · 1h +15min
+3 tipos: amistoso / firme / escalación</pre>
+      </div>
+    </details>
+    <details>
+      <summary>🧾 4.3 Recibos de pago</summary>
+      <div class="details-content">
+        <p style="color:#888; font-size:12px; margin-bottom:8px;">Detecta cambios en Pagado(Q) → emite recibo automático al cliente.</p>
+        <pre>script: generar_recibo_pago.py
+template: recibo_pago.html
+cron: NorkitoRecibosPago · 1h +45min
+state: scripts/_recibos_state.json</pre>
+      </div>
+    </details>
   </div>
 
-  <div class="card">
-    <div class="card-head">
-      <div class="icon">📸</div>
-      <div class="card-title">Portal Partner</div>
-    </div>
-    <div class="card-desc">Bodas asignadas + pagos pendientes + tarifas.</div>
-    <a href="portal-partner.html" class="card-link">Abrir Henry Gil</a>
+  <!-- SCRIPTS -->
+  <h2 id="scripts">🐍 Scripts útiles (todos)</h2>
+  <div class="grid-buttons">
+    <details>
+      <summary>📜 Generadores</summary>
+      <div class="details-content">
+        <pre>scripts/generar_portal_cliente.py --cliente "Nombre"
+scripts/generar_portal_partner.py --partner "Henry Gil"
+scripts/generar_portal_partner.py --all
+scripts/generar_contrato.py --cotizacion COT-2026-001
+scripts/generar_contrato.py --all
+scripts/generar_recibo_pago.py --execute
+scripts/dashboard_dispersion_pagos.py
+scripts/reporte_raw_pendientes.py
+scripts/generar_acceso_cliente.py --execute --send-email</pre>
+      </div>
+    </details>
+    <details>
+      <summary>🔄 Triggers</summary>
+      <div class="details-content">
+        <pre>scripts/trigger_lead_nuevo.py --execute
+scripts/trigger_lead_nuevo.py --dry-run
+scripts/trigger_contrato_firmado.py --execute
+scripts/cron_cxc_recordatorios.py --execute
+scripts/cron_cxc_recordatorios.py --dry-run</pre>
+      </div>
+    </details>
+    <details>
+      <summary>📊 Reportes y dashboards</summary>
+      <div class="details-content">
+        <pre>scripts/dashboard_dispersion_pagos.py
+scripts/reporte_raw_pendientes.py
+scripts/reporte_ganancia_boda.py
+scripts/reglas_liquidacion.py
+scripts/workflow_engine_v2.py --execute --limit 30</pre>
+      </div>
+    </details>
+    <details>
+      <summary>🌱 Seeds y limpieza</summary>
+      <div class="details-content">
+        <pre>scripts/seed_ficticio_full.py --execute
+scripts/seed_ficticio_full.py --dry-run
+scripts/auditoria_seguridad.py
+scripts/export_csv_contingencia.py</pre>
+      </div>
+    </details>
+    <details>
+      <summary>🔧 Configuración DB</summary>
+      <div class="details-content">
+        <pre>scripts/crear_db_clientes.py
+scripts/crear_db_leads.py
+scripts/crear_db_cotizaciones.py
+scripts/crear_db_invitaciones.py
+scripts/crear_campos_acceso.py
+scripts/crear_campos_partner.py</pre>
+      </div>
+    </details>
+    <details>
+      <summary>🔐 SMTP</summary>
+      <div class="details-content">
+        <pre>scripts/_smtp_config.py    # helper compartido
+scripts/_test_smtp.py        # diagnóstico</pre>
+        <p style="color:#888; font-size:12px; margin-top:8px;">SMTP_USER = asistentenorkevin@gmail.com<br>SMTP_PASSWORD = GMAIL_APP_PASSWORD (16 chars)</p>
+      </div>
+    </details>
+    <details>
+      <summary>💬 WhatsApp Context Reader (WCR)</summary>
+      <div class="details-content">
+        <pre>scripts/whatsapp_context_reader.py
+scripts/view_outbox.py list
+scripts/view_outbox.py show N
+scripts/view_outbox.py approve N --text "..."
+scripts/view_outbox.py reject N</pre>
+      </div>
+    </details>
   </div>
 
-  <div class="card">
-    <div class="card-head">
-      <div class="icon">📜</div>
-      <div class="card-title">Contrato</div>
-    </div>
-    <div class="card-desc">11 cláusulas: partes, evento, pago, entregables, cancelación, derechos.</div>
-    <a href="contrato.html" class="card-link">Abrir Rodriguez & Lopez</a>
+  <!-- DOCS -->
+  <h2 id="docs">📚 Documentación</h2>
+  <div class="grid-buttons">
+    <a href="https://github.com/Norkevin/norkevin/blob/master/ARQUITECTURA.md" target="_blank" class="btn">
+      <div class="btn-icon">🗺️</div>
+      <div class="btn-content">
+        <div class="btn-title">ARQUITECTURA.md</div>
+        <div class="btn-desc">Diagrama + DBs + crons + flujos + stack</div>
+      </div>
+      <div class="btn-arrow">↗</div>
+    </a>
+    <a href="https://github.com/Norkevin/norkevin/blob/master/RUNBOOKS.md" target="_blank" class="btn">
+      <div class="btn-icon">🔧</div>
+      <div class="btn-content">
+        <div class="btn-title">RUNBOOKS.md</div>
+        <div class="btn-desc">10 procedimientos paso a paso</div>
+      </div>
+      <div class="btn-arrow">↗</div>
+    </a>
+    <a href="https://github.com/Norkevin/norkevin/blob/master/plan_fases_crm.md" target="_blank" class="btn">
+      <div class="btn-icon">📋</div>
+      <div class="btn-content">
+        <div class="btn-title">plan_fases_crm.md</div>
+        <div class="btn-desc">Estado de las 7 fases con timestamps</div>
+      </div>
+      <div class="btn-arrow">↗</div>
+    </a>
+    <a href="https://github.com/Norkevin/norkevin/blob/master/MEMORY.md" target="_blank" class="btn">
+      <div class="btn-icon">🧠</div>
+      <div class="btn-content">
+        <div class="btn-title">MEMORY.md</div>
+        <div class="btn-desc">Reglas + contexto + decisiones</div>
+      </div>
+      <div class="btn-arrow">↗</div>
+    </a>
+    <a href="https://github.com/Norkevin/norkevin" target="_blank" class="btn">
+      <div class="btn-icon">📦</div>
+      <div class="btn-content">
+        <div class="btn-title">Repo norkevin</div>
+        <div class="btn-desc">GitHub · todos los archivos</div>
+      </div>
+      <div class="btn-arrow">↗</div>
+    </a>
   </div>
 
-  <div class="card">
-    <div class="card-head">
-      <div class="icon">💸</div>
-      <div class="card-title">Dispersión de Pagos</div>
-    </div>
-    <div class="card-desc">KPIs + por paquete + por estado + por mes + por boda.</div>
-    <a href="dashboard-dispersion.html" class="card-link">Abrir dashboard</a>
+  <!-- COMANDOS -->
+  <h2 id="comandos">💻 Comandos rápidos</h2>
+  <div class="grid-buttons">
+    <details>
+      <summary>🚀 Inicio rápido</summary>
+      <div class="details-content">
+        <pre># Activar env
+cd C:\Users\fotov\.openclaw\workspace
+python scripts/generar_portal_cliente.py --all
+python scripts/dashboard_dispersion_pagos.py
+
+# Testear triggers
+python scripts/trigger_lead_nuevo.py --dry-run
+python scripts/trigger_contrato_firmado.py --dry-run
+python scripts/cron_cxc_recordatorios.py --dry-run
+
+# Auditar seguridad
+python scripts/auditoria_seguridad.py</pre>
+      </div>
+    </details>
+    <details>
+      <summary>🌐 Publicar a GitHub Pages</summary>
+      <div class="details-content">
+        <pre># 1. Crear HTML en sprint-dashboard/
+# 2. git init / add / commit
+# 3. Crear repo via API:
+python -c "import requests,os; ..."  
+# 4. Subir via API (PUT contents)
+# 5. Activar Pages (POST /pages)</pre>
+      </div>
+    </details>
+    <details>
+      <summary>📧 SMTP test</summary>
+      <div class="details-content">
+        <pre>python scripts/_test_smtp.py
+# Esperado: asistentenorkevin@gmail.com funciona</pre>
+      </div>
+    </details>
   </div>
 
-  <div class="card">
-    <div class="card-head">
-      <div class="icon">📦</div>
-      <div class="card-title">Reporte Raw Cards</div>
-    </div>
-    <div class="card-desc">12 bodas T+1 a T+60 con raw pendiente · 13 partners · max 51d.</div>
-    <a href="reporte-raw.html" class="card-link">Abrir reporte</a>
-  </div>
-
-  <div class="card">
-    <div class="card-head">
-      <div class="icon">✉️</div>
-      <div class="card-title">Preview Email Lead</div>
-    </div>
-    <div class="card-desc">Cómo se ve el correo automático a un Lead nuevo.</div>
-    <a href="preview-email-lead.html" class="card-link">Abrir email</a>
-  </div>
-
-  <h2>📚 Documentación</h2>
-
-  <div class="card">
-    <div class="card-head">
-      <div class="icon">🗺️</div>
-      <div class="card-title">ARQUITECTURA.md</div>
-    </div>
-    <div class="card-desc">Diagrama + DBs + crons + flujos + stack técnico.</div>
-    <a href="https://github.com/Norkevin/norkevin/blob/master/ARQUITECTURA.md" target="_blank" class="card-link">Ver en GitHub</a>
-  </div>
-
-  <div class="card">
-    <div class="card-head">
-      <div class="icon">🔧</div>
-      <div class="card-title">RUNBOOKS.md</div>
-    </div>
-    <div class="card-desc">10 procedimientos: cron fallido, SMTP, WCR, Notion 401, backup.</div>
-    <a href="https://github.com/Norkevin/norkevin/blob/master/RUNBOOKS.md" target="_blank" class="card-link">Ver en GitHub</a>
-  </div>
-
-  <div class="card">
-    <div class="card-head">
-      <div class="icon">📋</div>
-      <div class="card-title">Plan CRM (7 fases)</div>
-    </div>
-    <div class="card-desc">Estado de cada fase con timestamps.</div>
-    <a href="https://github.com/Norkevin/norkevin/blob/master/plan_fases_crm.md" target="_blank" class="card-link">Ver plan</a>
-  </div>
-
-  <h2>⚙️ Triggers automáticos</h2>
-
-  <div class="card">
-    <div class="card-head">
-      <div class="icon">🔔</div>
-      <div class="card-title">6.1 Lead nuevo</div>
-    </div>
-    <div class="card-desc">Lead estado Nuevo + email → correo + tarea + Contactado.</div>
-    <div class="card-meta">cron: NorkitoLeadAutoReply · 1h</div>
-  </div>
-
-  <div class="card">
-    <div class="card-head">
-      <div class="icon">📝</div>
-      <div class="card-title">6.2 Contrato firmado</div>
-    </div>
-    <div class="card-desc">Cotización pagada + Job pendiente → Job Confirmado + tarea + email.</div>
-    <div class="card-meta">cron: NorkitoContratoFirmado · 1h +30min</div>
-  </div>
-
-  <div class="card">
-    <div class="card-head">
-      <div class="icon">💰</div>
-      <div class="card-title">4.2 CxC recordatorios</div>
-    </div>
-    <div class="card-desc">T-3 amistoso · T-0 firme · T+3 escalación Kevin.</div>
-    <div class="card-meta">cron: NorkitoCxCRecordatorios · 1h +15min</div>
-  </div>
-
-  <div class="card">
-    <div class="card-head">
-      <div class="icon">🧾</div>
-      <div class="card-title">4.3 Recibos de pago</div>
-    </div>
-    <div class="card-desc">Cambio en Pagado(Q) → recibo automático al cliente.</div>
-    <div class="card-meta">cron: NorkitoRecibosPago · 1h +45min</div>
+  <!-- PREVIEW -->
+  <h2 id="preview">👁️ Preview inline</h2>
+  <p style="color:#888; font-size:12px; margin-bottom:8px;">Toca una vista arriba para verla acá ↓</p>
+  <div class="iframe-wrap" id="iframeContainer">
+    <button class="iframe-close" onclick="document.getElementById('viewer').src='';this.style.display='none';">✕</button>
+    <iframe id="viewer" src="" sandbox="allow-same-origin allow-scripts"></iframe>
   </div>
 
   <footer>
-    Norkito CRM · Sprint madrugada 6-jul-2026<br>
-    Hosting permanente · Todo integrado
+    Norkito CRM · Sprint 6-jul-2026 · 03:30 CST<br>
+    Hosting permanente · Todo en un solo link
   </footer>
 
 </div>
+
+<script>
+  // Smooth scroll + auto-load iframe
+  document.querySelectorAll('a[href^="#"]').forEach(a => {{
+    a.addEventListener('click', e => {{
+      const id = a.getAttribute('href').slice(1);
+      const el = document.getElementById(id);
+      if (el) {{
+        e.preventDefault();
+        el.scrollIntoView({{behavior: 'smooth', block: 'start'}});
+      }}
+    }});
+  }});
+
+  // When user clicks a vista button, load it in the iframe
+  document.querySelectorAll('a[href$=".html"]').forEach(a => {{
+    a.addEventListener('click', e => {{
+      const href = a.getAttribute('href');
+      if (href.startsWith('http')) return; // external link
+      e.preventDefault();
+      const viewer = document.getElementById('viewer');
+      const close = document.querySelector('.iframe-close');
+      viewer.src = href;
+      close.style.display = 'block';
+      document.getElementById('preview').scrollIntoView({{behavior: 'smooth'}});
+    }});
+  }});
+</script>
 </body>
 </html>
