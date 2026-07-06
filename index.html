@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Norkito Sprint 6-jul-2026</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html, body { overflow-x: hidden; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #0a0a0a;
+    color: #e0e0e0;
+    padding: 16px;
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    min-height: 100vh;
+  }
+  .container { max-width: 720px; margin: 0 auto; width: 100%; }
+  header {
+    text-align: center;
+    padding: 24px 0 20px 0;
+    border-bottom: 1px solid #2a2a2a;
+    margin-bottom: 20px;
+  }
+  h1 {
+    font-size: 22px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #d4a574 0%, #b8860b 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+  }
+  .subtitle { color: #888; font-size: 11px; letter-spacing: 1.2px; text-transform: uppercase; }
+  .updated { color: #555; font-size: 11px; margin-top: 6px; }
+  .meta {
+    background: #1a1a1a;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 16px;
+    border: 1px solid #2a2a2a;
+  }
+  .meta h3 {
+    color: #d4a574;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+  .meta ul { list-style: none; display: block; font-size: 13px; color: #d0d0d0; }
+  .meta ul li { padding: 4px 0; line-height: 1.4; }
+  .meta ul li::before { content: '✓ '; color: #4ade80; font-weight: 700; margin-right: 4px; }
+  h2 {
+    color: #d4a574;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin: 24px 0 12px 0;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #2a2a2a;
+    font-weight: 600;
+  }
+  .card {
+    background: #1a1a1a;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 10px;
+    border: 1px solid #2a2a2a;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .card-head { display: flex; align-items: center; gap: 10px; }
+  .icon {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    background: linear-gradient(135deg, #d4a574, #b8860b);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+  }
+  .card-title { font-size: 15px; font-weight: 600; color: #f5f5f5; line-height: 1.3; }
+  .card-desc { font-size: 12px; color: #888; line-height: 1.5; }
+  .card-link {
+    display: block;
+    padding: 12px 16px;
+    background: linear-gradient(135deg, #d4a574 0%, #b8860b 100%);
+    color: #0a0a0a;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 700;
+    border-radius: 8px;
+    text-align: center;
+    letter-spacing: 0.3px;
+  }
+  .card-link:active { filter: brightness(0.9); }
+  .card-meta {
+    font-size: 10px;
+    color: #555;
+    line-height: 1.4;
+    font-family: ui-monospace, monospace;
+  }
+  footer {
+    text-align: center;
+    padding: 24px 0 8px 0;
+    color: #555;
+    font-size: 11px;
+    border-top: 1px solid #2a2a2a;
+    margin-top: 24px;
+    line-height: 1.5;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <h1>SPRINT 6-JUL-2026</h1>
+    <div class="subtitle">Norkito · Hub central</div>
+    <div class="updated">Sprint madrugada · 4 fases cerradas en 3h</div>
+  </header>
+
+  <div class="meta">
+    <h3>Resumen del sprint</h3>
+    <ul>
+      <li>Fase 4 — Finanzas (CxC, recibos, dashboard)</li>
+      <li>Fase 5 — Custom build (portal cliente/partner, contratos, raw)</li>
+      <li>Fase 6 — Workflow (Lead, Contrato, WCR)</li>
+      <li>Fase 7 — Hardening (Runbooks, Arquitectura, Auditoría)</li>
+      <li>4 crons Gateway nuevos activos</li>
+      <li>60 datos ficticios seedeados</li>
+      <li>8 commits hoy · MEMORY/ARQUITECTURA/RUNBOOKS actualizados</li>
+    </ul>
+  </div>
+
+  <h2>🌐 Vistas navegables</h2>
+
+  <div class="card">
+    <div class="card-head">
+      <div class="icon">👤</div>
+      <div class="card-title">Portal Cliente</div>
+    </div>
+    <div class="card-desc">Bodas + estado de cuenta + galería. Datos en vivo desde Notion.</div>
+    <a href="portal-cliente.html" class="card-link">Abrir Sofia & Andres</a>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <div class="icon">📸</div>
+      <div class="card-title">Portal Partner</div>
+    </div>
+    <div class="card-desc">Bodas asignadas + pagos pendientes + tarifas.</div>
+    <a href="portal-partner.html" class="card-link">Abrir Henry Gil</a>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <div class="icon">📜</div>
+      <div class="card-title">Contrato</div>
+    </div>
+    <div class="card-desc">11 cláusulas: partes, evento, pago, entregables, cancelación, derechos.</div>
+    <a href="contrato.html" class="card-link">Abrir Rodriguez & Lopez</a>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <div class="icon">💸</div>
+      <div class="card-title">Dispersión de Pagos</div>
+    </div>
+    <div class="card-desc">KPIs + por paquete + por estado + por mes + por boda.</div>
+    <a href="dashboard-dispersion.html" class="card-link">Abrir dashboard</a>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <div class="icon">📦</div>
+      <div class="card-title">Reporte Raw Cards</div>
+    </div>
+    <div class="card-desc">12 bodas T+1 a T+60 con raw pendiente · 13 partners · max 51d.</div>
+    <a href="reporte-raw.html" class="card-link">Abrir reporte</a>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <div class="icon">✉️</div>
+      <div class="card-title">Preview Email Lead</div>
+    </div>
+    <div class="card-desc">Cómo se ve el correo automático a un Lead nuevo.</div>
+    <a href="preview-email-lead.html" class="card-link">Abrir email</a>
+  </div>
+
+  <h2>📚 Documentación</h2>
+
+  <div class="card">
+    <div class="card-head">
+      <div class="icon">🗺️</div>
+      <div class="card-title">ARQUITECTURA.md</div>
+    </div>
+    <div class="card-desc">Diagrama + DBs + crons + flujos + stack técnico.</div>
+    <a href="https://github.com/Norkevin/norkevin/blob/master/ARQUITECTURA.md" target="_blank" class="card-link">Ver en GitHub</a>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <div class="icon">🔧</div>
+      <div class="card-title">RUNBOOKS.md</div>
+    </div>
+    <div class="card-desc">10 procedimientos: cron fallido, SMTP, WCR, Notion 401, backup.</div>
+    <a href="https://github.com/Norkevin/norkevin/blob/master/RUNBOOKS.md" target="_blank" class="card-link">Ver en GitHub</a>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <div class="icon">📋</div>
+      <div class="card-title">Plan CRM (7 fases)</div>
+    </div>
+    <div class="card-desc">Estado de cada fase con timestamps.</div>
+    <a href="https://github.com/Norkevin/norkevin/blob/master/plan_fases_crm.md" target="_blank" class="card-link">Ver plan</a>
+  </div>
+
+  <h2>⚙️ Triggers automáticos</h2>
+
+  <div class="card">
+    <div class="card-head">
+      <div class="icon">🔔</div>
+      <div class="card-title">6.1 Lead nuevo</div>
+    </div>
+    <div class="card-desc">Lead estado Nuevo + email → correo + tarea + Contactado.</div>
+    <div class="card-meta">cron: NorkitoLeadAutoReply · 1h</div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <div class="icon">📝</div>
+      <div class="card-title">6.2 Contrato firmado</div>
+    </div>
+    <div class="card-desc">Cotización pagada + Job pendiente → Job Confirmado + tarea + email.</div>
+    <div class="card-meta">cron: NorkitoContratoFirmado · 1h +30min</div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <div class="icon">💰</div>
+      <div class="card-title">4.2 CxC recordatorios</div>
+    </div>
+    <div class="card-desc">T-3 amistoso · T-0 firme · T+3 escalación Kevin.</div>
+    <div class="card-meta">cron: NorkitoCxCRecordatorios · 1h +15min</div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <div class="icon">🧾</div>
+      <div class="card-title">4.3 Recibos de pago</div>
+    </div>
+    <div class="card-desc">Cambio en Pagado(Q) → recibo automático al cliente.</div>
+    <div class="card-meta">cron: NorkitoRecibosPago · 1h +45min</div>
+  </div>
+
+  <footer>
+    Norkito CRM · Sprint madrugada 6-jul-2026<br>
+    Hosting permanente · Todo integrado
+  </footer>
+
+</div>
+</body>
+</html>
